@@ -174,7 +174,7 @@ function App() {
           <section id="directory">
             <div className="hero">
                 <h2 className="hero-title">WIFI STATUS ACROSS CAMPUS</h2>
-                <p className="hero-subtitle">Run out of data on campus? Find active school WiFi in seconds.</p>
+                <p className="hero-subtitle">Low on data on campus? Find active school WiFi in seconds.</p>
                 
                 <div className="stats-grid">
                     <div className="stat-card">
