@@ -117,6 +117,19 @@
     align-items: center;
 }
 
+.hotspot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .hotspot-grid {
+        gap: var(--space-lg);
+    }
+}
+
 /* Navbar */
 .header {
     background-color: var(--bg-base);
@@ -879,4 +892,5 @@
     .search-box { width: 100%; }
     .search-box input { width: 100%; }
     .hero-title { font-size: 24px; }
+    .main-content { padding: calc(64px + var(--space-lg)) var(--space-md) calc(64px + var(--space-xl)); }
 }
