@@ -15,38 +15,38 @@ const INITIAL_HOTSPOTS: Hotspot[] = [
     {
         id: 1,
         name: "Jaja",
-        ssid: "Jaja_Accgr1",
+        ssid: "Jaja_AP_3N",
         icon: "🏫",
         category: "halls",
-        location: "Opposite Jaja Clinic",
+        location: "OPD Waiting Side",
         status: "up",
         speed: "Fast",
-        coverage: "Common Room, Block A",
-        note: "Best signal is near the waiting arena inside the clinic.",
+        coverage: "OPD waiting area",
+        note: "Handshake is strongest directly at the OPD waiting side.",
         steps: [
-            "Connect to Jaja_Accgr1",
+            "Connect to Jaja_AP_3N",
             "Wait for login page",
-            "Enter matric number and password"
+            "Login with school details"
         ],
         lastUpdated: "4 mins ago"
     },
     {
-        id: 2,
-        name: "Kenneth Dike Library",
-        ssid: "KDL_Main_WiFi",
-        icon: "📚",
-        category: "library",
-        location: "Central Campus",
-        status: "slow",
-        speed: "Moderate",
-        coverage: "Reading Room 1 & 2",
-        note: "Avoid during peak hours (10am-2pm).",
+        id: 101,
+        name: "Jaja",
+        ssid: "Jaja_Accgr1",
+        icon: "🏫",
+        category: "halls",
+        location: "waiting main hall in jaja",
+        status: "up",
+        speed: "Fast",
+        coverage: "waiting main hall",
+        note: "Handshake is strongest in the waiting main hall area.",
         steps: [
-            "Connect to KDL_Main_WiFi",
-            "Navigate to 1.1.1.1 if portal doesn't show",
-            "Login with library credentials"
+            "Connect to Jaja_Accgr1",
+            "Wait for login page",
+            "Login with school details"
         ],
-        lastUpdated: "12 mins ago"
+        lastUpdated: "10 mins ago"
     },
     {
         id: 3,
@@ -65,52 +65,20 @@ const INITIAL_HOTSPOTS: Hotspot[] = [
     {
         id: 4,
         name: "Kuti Hall",
-        ssid: "Kuti_Hall_WiFi",
+        ssid: "Kuti_AP7",
         icon: "🏢",
         category: "halls",
-        location: "Student Residential Area",
-        status: "up",
-        speed: "Fast",
-        coverage: "Blocks B and C",
-        note: "Recently upgraded bandwidth.",
+        location: "E Block, Kuti",
+        status: "down",
+        speed: "N/A",
+        coverage: "E Block surroundings",
+        note: "Currently offline. Present at E block in Kuti.",
         steps: [
-            "Connect to Kuti_Hall_WiFi",
+            "Connect to Kuti_AP7",
             "Accept security certificate if prompted",
-            "Login with portal details"
+            "Login with school details"
         ],
         lastUpdated: "22 mins ago"
-    },
-    {
-        id: 5,
-        name: "Tech Faculty",
-        ssid: "Tech_Staff_WiFi",
-        icon: "⚙️",
-        category: "faculty",
-        location: "Faculty of Technology",
-        status: "up",
-        speed: "Fast",
-        coverage: "Lecture Theater 1",
-        note: "Password may be required from department office.",
-        steps: [
-            "Connect to Tech_Staff_WiFi",
-            "Obtain department code",
-            "Login via captive portal"
-        ],
-        lastUpdated: "45 mins ago"
-    },
-    {
-        id: 6,
-        name: "Mellanby Hall",
-        ssid: "Mellanby_WiFi",
-        icon: "🏰",
-        category: "halls",
-        location: "Near SUB",
-        status: "unknown",
-        speed: "N/A",
-        coverage: "Courtyard",
-        note: "No recent reports from this location.",
-        steps: [],
-        lastUpdated: "2 days ago"
     }
 ];
 
@@ -490,6 +458,18 @@ function App() {
                       </div>
                     ))}
                 </div>
+                
+                <div className="info-callout" style={{ 
+                  marginTop: '16px', 
+                  background: 'rgba(201, 150, 26, 0.1)', 
+                  border: '1px solid rgba(201, 150, 26, 0.2)',
+                  padding: '12px',
+                  borderRadius: '4px'
+                }}>
+                    <p style={{ fontSize: '11px', color: 'var(--ui-gold)', lineHeight: '1.4' }}>
+                        <strong>💡 PRO TIP:</strong> Not sure about your login details? Check the <strong>CONNECT</strong> tab for the full setup guide!
+                    </p>
+                </div>
             </div>
 
             {selectedHotspot.note && (
@@ -510,11 +490,14 @@ function App() {
       >
         <div className="report-modal-body">
             <div className="form-group">
-                <label className="label-caps">Select Active Location</label>
+                <label className="label-caps">Select Specific WiFi Network</label>
                 <div className="custom-select">
                     <select>
+                        <option value="" disabled selected>Choose a network to update...</option>
                         {INITIAL_HOTSPOTS.map(h => (
-                          <option key={h.id} value={h.id}>{h.icon} {h.name}</option>
+                          <option key={h.id} value={h.id}>
+                            {h.icon} {h.name} — {h.ssid}
+                          </option>
                         ))}
                     </select>
                     <span className="material-symbols-outlined select-arrow">expand_more</span>
