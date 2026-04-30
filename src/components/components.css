@@ -824,6 +824,9 @@
 .logo-icon {
     color: var(--ui-green);
     font-size: 24px;
+    display: flex;
+    align-items: center;
+    transform: translateY(1px); /* Nudge down for baseline alignment */
 }
 
 .logo-text {

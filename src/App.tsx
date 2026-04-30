@@ -2,7 +2,7 @@ import { useState, useMemo, useRef } from 'react'
 import emailjs from '@emailjs/browser'
 import './index.css'
 import './components/components.css'
-import type { Hotspot, NightPlan } from './types'
+import type { Hotspot } from './types'
 import Navbar from './components/Navbar'
 import TopBar from './components/TopBar'
 import HotspotCard from './components/HotspotCard'
@@ -142,10 +142,7 @@ function App() {
     setToasts(prev => [...prev, msg]);
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    addToast("Code copied to clipboard");
-  };
+
 
   return (
     <div className="app">
