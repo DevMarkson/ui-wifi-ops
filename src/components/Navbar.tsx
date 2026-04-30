@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange }) => {
         onClick={() => onTabChange('submit')}
       >
         <span className="material-symbols-outlined">add_circle</span>
-        <span className="nav-label">SUBMIT</span>
+        <span className="nav-label">SUBMIT WIFI</span>
       </button>
 
       <button 
@@ -32,13 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange }) => {
         <span className="nav-label">CONNECT</span>
       </button>
 
-      <button 
-        className={`nav-item ${currentTab === 'night' ? 'active' : ''}`} 
-        onClick={() => onTabChange('night')}
-      >
-        <span className="material-symbols-outlined">dark_mode</span>
-        <span className="nav-label">NIGHT PLANS</span>
-      </button>
+
     </nav>
   );
 };

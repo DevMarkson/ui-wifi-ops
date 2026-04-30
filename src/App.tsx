@@ -8,6 +8,7 @@ import TopBar from './components/TopBar'
 import HotspotCard from './components/HotspotCard'
 import Modal from './components/Modal'
 import Toast from './components/Toast'
+import { Analytics } from '@vercel/analytics/react'
 
 // Sample Data
 const INITIAL_HOTSPOTS: Hotspot[] = [
@@ -113,29 +114,7 @@ const INITIAL_HOTSPOTS: Hotspot[] = [
     }
 ];
 
-const NIGHT_PLANS: NightPlan[] = [
-    {
-        provider: "MTN Night Plan",
-        price: "₦50",
-        volume: "500MB",
-        time: "12am - 5am",
-        code: "*406*3#"
-    },
-    {
-        provider: "Airtel Night",
-        price: "₦25",
-        volume: "250MB",
-        time: "12am - 5am",
-        code: "*312#"
-    },
-    {
-        provider: "Glo Night",
-        price: "₦100",
-        volume: "1GB",
-        time: "12am - 5am",
-        code: "*312#"
-    }
-];
+
 
 function App() {
   const [currentTab, setCurrentTab] = useState('directory');
@@ -225,6 +204,19 @@ function App() {
                   />
                 ))}
             </div>
+
+            <div className="report-banner">
+                <div className="report-content">
+                    <span className="material-symbols-outlined text-gold">campaign</span>
+                    <div>
+                        <h4 className="banner-title">Know a spot that's wrong?</h4>
+                        <p className="banner-text">Help the community by reporting inactive or slow hotspots.</p>
+                    </div>
+                </div>
+                <button className="btn-report-banner" onClick={() => setIsReportModalOpen(true)}>
+                    REPORT STATUS
+                </button>
+            </div>
           </section>
         )}
 
@@ -234,7 +226,7 @@ function App() {
               <>
                 <div className="screen-header">
                     <span className="label-caps text-gold">CROWDSOURCED DATA</span>
-                    <h2 className="screen-title">Submit a WiFi Hotspot</h2>
+                    <h2 className="screen-title">Submit a School WiFi</h2>
                     <p className="screen-subtitle">Help fellow students by providing accurate connectivity data for your location.</p>
                 </div>
 
@@ -323,42 +315,58 @@ function App() {
                 </div>
               </>
             ) : (
-              <div className="success-screen">
-                <div className="success-icon-wrapper">
-                    <div className="success-glow"></div>
-                    <div className="success-icon-box">
-                        <span className="material-symbols-outlined fill-icon">check_circle</span>
+              <section id="success" className="success-section">
+            <div className="success-canvas">
+                {/* Hero Illustration */}
+                <div className="success-hero">
+                    <div className="hero-blur"></div>
+                    <div className="hero-icon-container">
+                        <span className="material-symbols-outlined text-up fill-icon">check_circle</span>
                     </div>
-                    <div className="success-badge">
+                    <div className="radar-badge">
                         <span className="material-symbols-outlined">verified</span>
                     </div>
                 </div>
 
-                <div className="success-content">
+                {/* Message Content */}
+                <div className="success-message">
                     <h1 className="success-title">Submission Received</h1>
-                    <p className="success-message">Thanks for contributing. We'll verify and add it to the map if valid.</p>
+                    <p className="success-subtitle font-mono">
+                        Thanks for contributing. We'll verify and add it to the map if valid.
+                    </p>
                 </div>
 
-                <div className="success-meta-grid">
-                    <div className="meta-item">
-                        <span className="meta-label">STATUS</span>
-                        <div className="meta-status">
-                            <div className="dot yellow pulse"></div>
-                            <span className="text-gold">Pending Review</span>
+                {/* Bento Metadata */}
+                <div className="metadata-bento">
+                    <div className="bento-item">
+                        <p className="label-caps text-muted">Status</p>
+                        <div className="status-indicator">
+                            <div className="dot-pulse"></div>
+                            <p className="text-gold font-bold">Pending Review</p>
                         </div>
                     </div>
-                    <div className="meta-item">
-                        <span className="meta-label">QUEUE ID</span>
-                        <span className="font-mono">#OPS-7729-X</span>
+                    <div className="bento-item">
+                        <p className="label-caps text-muted">Queue ID</p>
+                        <p className="font-mono text-primary">#OPS-7729-X</p>
                     </div>
                 </div>
 
+                {/* Actions */}
                 <div className="success-actions">
-                    <button className="btn-home" onClick={() => { setIsSubmitted(false); setCurrentTab('directory'); }}>
+                    <button 
+                        className="btn-primary-action"
+                        onClick={() => {
+                            setCurrentTab('directory');
+                            setIsSubmitted(false);
+                        }}
+                    >
                         <span className="material-symbols-outlined">home</span>
                         BACK TO HOME
                     </button>
-                    <button className="btn-another" onClick={() => setIsSubmitted(false)}>
+                    <button 
+                        className="btn-secondary-action"
+                        onClick={() => setIsSubmitted(false)}
+                    >
                         <span className="material-symbols-outlined">add_circle</span>
                         SUBMIT ANOTHER
                     </button>
@@ -368,8 +376,9 @@ function App() {
                     <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgTIVAHuZNBIff9rfMr1eBSPgj8nkn1pV_MBSIwP96nL34ANLIfKwMN0rChHxUdoX9yo9TCEvpHDIElDhQeJiurB9POZgIMRqwB_qijdPf1DKc2JMEANySJwr_Ks5Wg0UnFiLGVjMunC3lCdEf0yQncQ8jMrE2asrBswrMkqHeAl68k9YiflYH-PiAHx2rHo1KtF9-3ykK5lj_SQMBd4S8CabFjIQkUT2JPJyUpd_JQUwfg3tA9RrfzIyUUVVtpk_19j65ZIWZr9E" alt="Abstract connection grid" />
                 </div>
               </div>
-            )}
-          </section>
+            </section>
+          )}
+        </section>
         )}
 
         {currentTab === 'auth' && (
@@ -449,55 +458,8 @@ function App() {
           </section>
         )}
 
-        {currentTab === 'night' && (
-          <section id="night">
-            <div className="screen-header">
-                <h2 className="screen-title">NIGHT FALLBACKS</h2>
-                <p className="screen-subtitle">When campus WiFi is dead, these are your cheapest options.</p>
-            </div>
 
-            <div className="night-grid">
-                {NIGHT_PLANS.map(p => (
-                  <div className="telco-card" key={p.provider}>
-                    <div className="telco-header">
-                        <span className="telco-name">{p.provider}</span>
-                        <span className="stat-label">DAILY</span>
-                    </div>
-                    <div className="plan-info">
-                        <div className="plan-row">
-                            <span className="plan-label">Price</span>
-                            <span>{p.price}</span>
-                        </div>
-                        <div className="plan-row">
-                            <span className="plan-label">Volume</span>
-                            <span>{p.volume}</span>
-                        </div>
-                        <div className="plan-row">
-                            <span className="plan-label">Window</span>
-                            <span>{p.time}</span>
-                        </div>
-                    </div>
-                    <div className="ussd-block">
-                        <span className="ussd-code">{p.code}</span>
-                        <button className="btn-copy" onClick={() => copyToClipboard(p.code)}>COPY</button>
-                    </div>
-                  </div>
-                ))}
-            </div>
-
-            <div className="info-callout">
-                <p>Night plans activate at midnight. Make sure your SIM has at least the plan cost in airtime before dialing.</p>
-            </div>
-          </section>
-        )}
       </main>
-
-      <footer className="footer">
-        <div className="report-bar">
-            <p>Know a spot that's wrong? Help others by reporting it.</p>
-            <button className="btn-report" onClick={() => setIsReportModalOpen(true)}>REPORT STATUS</button>
-        </div>
-      </footer>
 
       {/* Connection Modal */}
       <Modal 
@@ -615,6 +577,7 @@ function App() {
           <Toast key={i} message={t} onClose={() => setToasts(prev => prev.filter((_, idx) => idx !== i))} />
         ))}
       </div>
+      <Analytics />
     </div>
   )
 }
