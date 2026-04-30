@@ -139,10 +139,20 @@
     z-index: 100;
 }
 
+.main-content {
+    padding-top: 80px;
+    padding-bottom: 40px;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 80px var(--space-md) 140px var(--space-md);
+    }
+}
+
 .header-container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--space-md) var(--space-lg);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1205,3 +1215,17 @@
 
 .material-symbols-outlined.spin { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Mobile Optimizations for Success Screen */
+@media (max-width: 480px) {
+    .success-screen { padding: var(--space-md) 0; }
+    .success-icon-wrapper { margin-bottom: var(--space-md); }
+    .success-icon-box { width: 72px; height: 72px; }
+    .success-icon-box .material-symbols-outlined { font-size: 40px !important; }
+    .success-content { margin-bottom: var(--space-sm); }
+    .success-title { font-size: 24px !important; }
+    .success-message { font-size: 12px; }
+    .success-meta-grid { margin-bottom: var(--space-sm); gap: 8px; }
+    .meta-item { padding: var(--space-sm); }
+    .success-footer-graphic { height: 60px; margin-top: var(--space-sm); }
+}
