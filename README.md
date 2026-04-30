@@ -1,73 +1,44 @@
-# React + TypeScript + Vite
+# UI WIFI OPS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, real-time campus WiFi tracking platform designed for the University of Ibadan (UI). This application helps students find active hotspots, secure their connections, and find fallback data plans when school infrastructure is down.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Live Hotspot Directory**: Real-time status tracking for WiFi access points across campus halls, libraries, and faculties.
+- **Interactive Auth Guide**: A step-by-step secure authentication protocol to help students bypass common login issues.
+- **Night Fallback Plans**: Curated list of affordable night data plans (Airtel, Glo) for when campus WiFi is unavailable.
+- **Operational Reporting**: Community-driven reporting system to update hotspot status (Working/Broken).
+- **Premium Aesthetics**: Built with a grounded tech aesthetic using the Stitch design system, featuring dark mode optimization and Material Symbols.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19 + TypeScript
+- **Bundler**: Vite
+- **Styling**: Vanilla CSS (Stitch tokens) + Tailwind utility classes
+- **Icons**: Google Material Symbols
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Design System
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+This project follows the **Stitch Design System** for a professional, institutional feel:
+- **Primary Color**: `#1A9957` (UI Institutional Green)
+- **Secondary Color**: `#C9961A` (UI Gold)
+- **Background**: `#050805` (Deep Dark Mode)
+- **Typography**: Space Grotesk & Epilogue
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+Developed for the UI student community.
