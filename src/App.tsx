@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
+import emailjs from '@emailjs/browser'
 import './index.css'
 import './components/components.css'
 import type { Hotspot, NightPlan } from './types'
@@ -142,7 +143,10 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [toasts, setToasts] = useState<string[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const filteredHotspots = useMemo(() => {
     return INITIAL_HOTSPOTS.filter(h => {
@@ -166,6 +170,7 @@ function App() {
 
   return (
     <div className="app">
+      <div className="backdrop-grid"></div>
       <TopBar />
       <Navbar currentTab={currentTab} onTabChange={setCurrentTab} />
 
@@ -220,6 +225,150 @@ function App() {
                   />
                 ))}
             </div>
+          </section>
+        )}
+
+        {currentTab === 'submit' && (
+          <section id="submit" className="submit-section">
+            {!isSubmitted ? (
+              <>
+                <div className="screen-header">
+                    <span className="label-caps text-gold">CROWDSOURCED DATA</span>
+                    <h2 className="screen-title">Submit a WiFi Hotspot</h2>
+                    <p className="screen-subtitle">Help fellow students by providing accurate connectivity data for your location.</p>
+                </div>
+
+                <div className="submit-card">
+                    <form className="submit-form" ref={formRef} onSubmit={async (e) => { 
+                        e.preventDefault(); 
+                        if (!formRef.current) return;
+                        
+                        setIsSubmitting(true);
+                        
+                        try {
+                            await emailjs.sendForm(
+                                import.meta.env.VITE_EMAILJS_SERVICE_ID, 
+                                import.meta.env.VITE_EMAILJS_TEMPLATE_ID, 
+                                formRef.current, 
+                                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+                            );
+                            
+                            setIsSubmitted(true); 
+                        } catch (error) {
+                            console.error("EmailJS Error:", error);
+                            addToast("Failed to send submission. Please try again.");
+                        } finally {
+                            setIsSubmitting(false);
+                        }
+                    }}>
+                        <div className="form-group">
+                            <label className="label-caps">LOCATION</label>
+                            <div className="input-with-icon">
+                                <span className="material-symbols-outlined">location_on</span>
+                                <input type="text" name="location" placeholder="e.g. Jaja, CS Department" required />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="label-caps">WIFI NAME (SSID)</label>
+                            <div className="input-with-icon">
+                                <span className="material-symbols-outlined">router</span>
+                                <input type="text" name="ssid" placeholder="e.g. Jaja_Accgr1" className="font-ssid" required />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="label-caps">EXACT SPOT DESCRIPTION</label>
+                            <div className="input-with-icon">
+                                <span className="material-symbols-outlined">info</span>
+                                <input type="text" name="description" placeholder="e.g. Near common room, beside staircase" required />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="label-caps">CURRENT STATUS</label>
+                            <div className="input-with-icon">
+                                <span className="material-symbols-outlined">signal_cellular_alt</span>
+                                <select name="status" required>
+                                    <option value="working">Working</option>
+                                    <option value="slow">Slow / Unstable</option>
+                                    <option value="unsure">Not sure</option>
+                                </select>
+                                <span className="material-symbols-outlined select-arrow">arrow_drop_down</span>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="label-caps">NOTES (OPTIONAL)</label>
+                            <textarea name="notes" placeholder="e.g. Works better at night" rows={3}></textarea>
+                        </div>
+
+                        <button type="submit" className="btn-primary-submit" disabled={isSubmitting}>
+                            <span className={`material-symbols-outlined ${isSubmitting ? 'spin' : ''}`}>
+                                {isSubmitting ? 'sync' : 'publish'}
+                            </span>
+                            {isSubmitting ? 'SENDING...' : 'SUBMIT HOTSPOT'}
+                        </button>
+                    </form>
+                </div>
+
+                <div className="submit-footer">
+                    <div className="spec-item">
+                        <div className="dot green"></div>
+                        <span className="spec-label">OPS_READY</span>
+                    </div>
+                    <div className="spec-item">
+                        <span className="spec-label">VERIFICATION: REQ</span>
+                    </div>
+                </div>
+              </>
+            ) : (
+              <div className="success-screen">
+                <div className="success-icon-wrapper">
+                    <div className="success-glow"></div>
+                    <div className="success-icon-box">
+                        <span className="material-symbols-outlined fill-icon">check_circle</span>
+                    </div>
+                    <div className="success-badge">
+                        <span className="material-symbols-outlined">verified</span>
+                    </div>
+                </div>
+
+                <div className="success-content">
+                    <h1 className="success-title">Submission Received</h1>
+                    <p className="success-message">Thanks for contributing. We'll verify and add it to the map if valid.</p>
+                </div>
+
+                <div className="success-meta-grid">
+                    <div className="meta-item">
+                        <span className="meta-label">STATUS</span>
+                        <div className="meta-status">
+                            <div className="dot yellow pulse"></div>
+                            <span className="text-gold">Pending Review</span>
+                        </div>
+                    </div>
+                    <div className="meta-item">
+                        <span className="meta-label">QUEUE ID</span>
+                        <span className="font-mono">#OPS-7729-X</span>
+                    </div>
+                </div>
+
+                <div className="success-actions">
+                    <button className="btn-home" onClick={() => { setIsSubmitted(false); setCurrentTab('directory'); }}>
+                        <span className="material-symbols-outlined">home</span>
+                        BACK TO HOME
+                    </button>
+                    <button className="btn-another" onClick={() => setIsSubmitted(false)}>
+                        <span className="material-symbols-outlined">add_circle</span>
+                        SUBMIT ANOTHER
+                    </button>
+                </div>
+
+                <div className="success-footer-graphic">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgTIVAHuZNBIff9rfMr1eBSPgj8nkn1pV_MBSIwP96nL34ANLIfKwMN0rChHxUdoX9yo9TCEvpHDIElDhQeJiurB9POZgIMRqwB_qijdPf1DKc2JMEANySJwr_Ks5Wg0UnFiLGVjMunC3lCdEf0yQncQ8jMrE2asrBswrMkqHeAl68k9YiflYH-PiAHx2rHo1KtF9-3ykK5lj_SQMBd4S8CabFjIQkUT2JPJyUpd_JQUwfg3tA9RrfzIyUUVVtpk_19j65ZIWZr9E" alt="Abstract connection grid" />
+                </div>
+              </div>
+            )}
           </section>
         )}
 

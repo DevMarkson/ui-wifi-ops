@@ -17,6 +17,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange }) => {
       </button>
 
       <button 
+        className={`nav-item ${currentTab === 'submit' ? 'active' : ''}`} 
+        onClick={() => onTabChange('submit')}
+      >
+        <span className="material-symbols-outlined">add_circle</span>
+        <span className="nav-label">SUBMIT</span>
+      </button>
+
+      <button 
         className={`nav-item ${currentTab === 'auth' ? 'active' : ''}`} 
         onClick={() => onTabChange('auth')}
       >
